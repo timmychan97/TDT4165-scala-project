@@ -1,5 +1,3 @@
-import java.lang.RuntimeException
-
 class Bank(val allowedAttempts: Integer = 3) {
 
     private val transactionsQueue: TransactionQueue = new TransactionQueue()
@@ -23,11 +21,11 @@ class Bank(val allowedAttempts: Integer = 3) {
     }
 
     private def processTransactions: Unit = {
-        new Thread(){
+        new Thread() {
             override def run(): Unit = {
                 val trans: Transaction = transactionsQueue.pop
                 trans.run()
-                if (trans.status == TransactionStatus.PENDING){
+                if (trans.status == TransactionStatus.PENDING) {
                     transactionsQueue.push(trans)
                     processTransactions
                 } else {

@@ -1,4 +1,3 @@
-import exceptions._
 import scala.collection.mutable
 
 object TransactionStatus extends Enumeration {
@@ -6,7 +5,6 @@ object TransactionStatus extends Enumeration {
 }
 
 class TransactionQueue {
-
     var transactions = new scala.collection.mutable.Queue[Transaction]
 
     // Remove and return the first element from the queue
@@ -46,39 +44,35 @@ class Transaction(val transactionsQueue: TransactionQueue,
   var attempt = 0
 
   override def run: Unit = {
-
       def doTransaction() = {
-          if (from.uid < to.uid){
-              from.synchronized{ to.synchronized {doTransactionSynchronized()} }
-          } else{
-              to.synchronized{ from.synchronized {doTransactionSynchronized()} }
+          if (from.uid < to.uid) {
+              from.synchronized {to.synchronized {doTransactionSynchronized()}}
+          } else {
+              to.synchronized {from.synchronized {doTransactionSynchronized()}}
           }
       }
 
       def doTransactionSynchronized(): Unit = {
           attempt += 1
           val withdrawResult = from.withdraw(amount)
-          withdrawResult match{
+          withdrawResult match {
               case Left(unit) => {
                   to.deposit(amount)
                   status = TransactionStatus.SUCCESS
               }
               case Right(string) => {
-                  if (attempt < allowedAttemps){
+                  if (attempt < allowedAttemps) {
                       status = TransactionStatus.PENDING
-                  } else{
+                  } else {
                       status = TransactionStatus.FAILED
                   }
               }
           }
       }
 
-      // TODO - project task 3
-      // make the code below thread safe
       if (status == TransactionStatus.PENDING) {
           doTransaction()
-          Thread.sleep(50) // you might want this to make more room for
-                           // new transactions to be added to the queue
+          Thread.sleep(50)
       }
     }
 }

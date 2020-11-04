@@ -1,5 +1,3 @@
-import exceptions._
-
 class Account(val bank: Bank, initialBalance: Double) {
     val uid: BigInt = bank.uniqueAccountId()
     class Balance(var amount: Double) {}
