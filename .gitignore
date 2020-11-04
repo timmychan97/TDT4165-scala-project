@@ -1,2 +1,5 @@
-project
-target
+*project
+*target
+
+.vscode
+.idea

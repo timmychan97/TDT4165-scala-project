@@ -1,7 +1,5 @@
-import exceptions._
-
 class Account(val bank: Bank, initialBalance: Double) {
-
+    val uid: BigInt = bank.uniqueAccountId()
     class Balance(var amount: Double) {}
 
     val balance = new Balance(initialBalance)
@@ -9,10 +7,10 @@ class Account(val bank: Bank, initialBalance: Double) {
     def withdraw(amount: Double): Either[Unit, String] = this.synchronized {
         if (balance.amount - amount < 0) {
             Right("Error: Not enough money deposited.")
-        } else if(amount < 0) {
+        } else if (amount < 0) {
             Right("Error: Tried to withdraw negative amount, which is illegal. Action thus not performed")
         } else {
-            balance.amount -= amount;
+            balance.amount -= amount
             Left(Unit)
         }
     }
@@ -29,8 +27,6 @@ class Account(val bank: Bank, initialBalance: Double) {
     def getBalanceAmount: Double = this.synchronized {balance.amount}
 
     def transferTo(account: Account, amount: Double) = {
-        bank addTransactionToQueue (this, account, amount)
+        bank.addTransactionToQueue (this, account, amount)
     }
-
-
 }
