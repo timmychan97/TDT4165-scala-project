@@ -29,8 +29,12 @@ object task2 {
         // This phenomenon is called a race condition
         // (the output of a concurrent program depends on
         // the execution schedule of the statements in the program).
-        // One example of a situation where it can be problematic:
-
+        // 
+        // A race condition for example occurs when thread A reads a variable X and then 
+        // its execution is paused. Another thread B reads the same value and is paused.
+        // The end value of X is then dependent on which thread continues its executiton first.
+        // If thread A is continued first, mutates X, its value will be overwritten by thread B's following mutation.
+        // An example of this could be two accounts depositing money to an account.
 
         // Task 2d
 
