@@ -48,7 +48,7 @@ class Transaction(val transactionsQueue: TransactionQueue,
   override def run: Unit = {
 
       def doTransaction() = {
-          if (from.gui < to.gui){
+          if (from.uid < to.uid){
               from.synchronized{ to.synchronized {doTransactionSynchronized()} }
           } else{
               to.synchronized{ from.synchronized {doTransactionSynchronized()} }
