@@ -7,9 +7,6 @@ object TransactionStatus extends Enumeration {
 
 class TransactionQueue {
 
-    // TODO
-    // project task 1.1
-    // Add datastructure to contain the transactions
     var transactions = new scala.collection.mutable.Queue[Transaction]
 
     // Remove and return the first element from the queue
@@ -51,10 +48,30 @@ class Transaction(val transactionsQueue: TransactionQueue,
   override def run: Unit = {
 
       def doTransaction() = {
-          // TODO - project task 3
-          // Extend this method to satisfy requirements.
-          //from withdraw amount
-          //to deposit amount
+          if (from.gui < to.gui){
+              from.synchronized{ to.synchronized {doTransactionSynchronized()} }
+          } else{
+              to.synchronized{ from.synchronized {doTransactionSynchronized()} }
+          }
+      }
+
+      def doTransactionSynchronized(): Unit = {
+          attempt += 1
+          val withdrawResult = from.withdraw(amount)
+          withdrawResult match{
+              case Left(unit) => {
+                  to.deposit(amount)
+                  status = TransactionStatus.SUCCESS
+              }
+              case Right(string) => {
+                  if (attempt < allowedAttemps){
+
+                  } else{
+                      status = TransactionStatus.FAILED
+                  }
+
+          }
+          }
       }
 
       // TODO - project task 3

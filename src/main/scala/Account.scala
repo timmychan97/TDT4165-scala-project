@@ -1,6 +1,6 @@
 import exceptions._
 
-class Account(val bank: Bank, initialBalance: Double) {
+class Account(val bank: Bank, val initialBalance: Double, val gui: Int = 0) {
 
     class Balance(var amount: Double) {}
 
