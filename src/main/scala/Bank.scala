@@ -21,6 +21,7 @@ class Bank(val allowedAttempts: Integer = 3) {
             }
         }.start()
     }
+
     private def processTransactions: Unit = {
         new Thread(){
             override def run(): Unit = {
@@ -29,7 +30,7 @@ class Bank(val allowedAttempts: Integer = 3) {
                 if (trans.status == TransactionStatus.PENDING){
                     transactionsQueue.push(trans)
                     processTransactions
-                } else{
+                } else {
                     processedTransactions.push(trans)
                 }
             }
