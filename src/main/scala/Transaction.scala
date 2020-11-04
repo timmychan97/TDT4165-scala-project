@@ -65,23 +65,20 @@ class Transaction(val transactionsQueue: TransactionQueue,
               }
               case Right(string) => {
                   if (attempt < allowedAttemps){
-
+                      status = TransactionStatus.PENDING
                   } else{
                       status = TransactionStatus.FAILED
                   }
-
-          }
+              }
           }
       }
 
       // TODO - project task 3
       // make the code below thread safe
       if (status == TransactionStatus.PENDING) {
-          //doTransaction
-          //Thread.sleep(50) // you might want this to make more room for
+          doTransaction()
+          Thread.sleep(50) // you might want this to make more room for
                            // new transactions to be added to the queue
       }
-
-
     }
 }
