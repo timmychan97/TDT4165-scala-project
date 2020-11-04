@@ -8,7 +8,7 @@ object TransactionStatus extends Enumeration {
 class TransactionQueue {
 
     // TODO
-    // project task 1.1
+    // project task 1.1bank
     // Add datastructure to contain the transactions
     var transactions = new scala.collection.mutable.Queue[Transaction]
 
