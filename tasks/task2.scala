@@ -35,12 +35,8 @@ object Task2 extends App {
     // the execution schedule of the statements in the program). 
     // One example of a situation where it can be problematic:
 
+
     // Task 2d
-    lazy val getTheAnswer = () => 42
-    this.synchronized {
-        val t = thread(getTheAnswer())
-        t.join()
-    }
 
     // A deadlock is a general situation in which two or more
     // executions wait for each other to complete an action
@@ -53,6 +49,12 @@ object Task2 extends App {
     // between resources when acquiring them. This ensures that
     // no set of threads cyclically wait on the resources they 
     // previously acquired. 
+
+    lazy val getTheAnswer = () => 42
+    this.synchronized {
+        val t = thread(getTheAnswer())
+        t.join()
+    }
 
     // The main thread calls synchronized on the enclosing object,
     // starts a new thread, and waits for its termination.
