@@ -12,7 +12,7 @@ class Bank(val allowedAttempts: Integer = 3) {
             override def run() {
                 processTransactions
             }
-        }.start();
+        }.start()
     }
     private def processTransactions: Unit = {
         val trans: Transaction = transactionsQueue.pop
@@ -24,8 +24,8 @@ class Bank(val allowedAttempts: Integer = 3) {
                 } else{
                     processedTransactions.push(trans)
                 }
-            }.start()
-        }
+            }
+        }.start()
     }
 
     def addAccount(initialBalance: Double): Account = {
