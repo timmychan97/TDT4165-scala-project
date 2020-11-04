@@ -14,6 +14,7 @@ class Bank(val allowedAttempts: Integer = 3) {
             }
         }.start()
     }
+
     private def processTransactions: Unit = {
         val trans: Transaction = transactionsQueue.pop
         new Thread(){
@@ -21,7 +22,7 @@ class Bank(val allowedAttempts: Integer = 3) {
                 if (trans.status == TransactionStatus.PENDING){
                     transactionsQueue.push(trans)
                     processTransactions
-                } else{
+                } else {
                     processedTransactions.push(trans)
                 }
             }
