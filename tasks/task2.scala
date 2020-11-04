@@ -53,6 +53,7 @@ object Task2 extends App {
     lazy val getTheAnswer = () => 42
     this.synchronized {
         val t = thread(getTheAnswer())
+        t.start()
         t.join()
     }
 
