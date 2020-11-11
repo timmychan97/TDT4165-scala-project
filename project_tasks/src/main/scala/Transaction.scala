@@ -5,7 +5,7 @@ object TransactionStatus extends Enumeration {
 }
 
 class TransactionQueue {
-    var transactions = new scala.collection.mutable.Queue[Transaction]
+    var transactions = new mutable.Queue[Transaction]
 
     // Remove and return the first element from the queue
     def pop: Transaction = this.synchronized {
@@ -38,30 +38,34 @@ class Transaction(val transactionsQueue: TransactionQueue,
                   val from: Account,
                   val to: Account,
                   val amount: Double,
-                  val allowedAttemps: Int) extends Runnable {
+                  val allowedAttempts: Int) extends Runnable {
 
   var status: TransactionStatus.Value = TransactionStatus.PENDING
   var attempt = 0
 
-  override def run: Unit = {
-      def doTransaction() = {
+  override def run(): Unit = {
+      def doTransaction(): Unit = this.synchronized {
+          // Avoiding deadlock by using guid.
           if (from.uid < to.uid) {
-              from.synchronized {to.synchronized {doTransactionSynchronized()}}
+              from.synchronized {to.synchronized {attemptTransaction()}}
           } else {
-              to.synchronized {from.synchronized {doTransactionSynchronized()}}
+              to.synchronized {from.synchronized {attemptTransaction()}}
           }
       }
 
-      def doTransactionSynchronized(): Unit = {
+      def attemptTransaction(): Unit = {
           attempt += 1
+          // Try to withdraw from sending account
           val withdrawResult = from.withdraw(amount)
           withdrawResult match {
-              case Left(unit) => {
+              case Left(_) => {
+                  // If successful deposit money and mark transaction as a success
                   to.deposit(amount)
                   status = TransactionStatus.SUCCESS
               }
-              case Right(string) => {
-                  if (attempt < allowedAttemps) {
+              case Right(_) => {
+                  // If transaction failed, either mark it as pending if enough attempts are left otherwise as failed
+                  if (attempt < allowedAttempts) {
                       status = TransactionStatus.PENDING
                   } else {
                       status = TransactionStatus.FAILED
@@ -70,6 +74,7 @@ class Transaction(val transactionsQueue: TransactionQueue,
           }
       }
 
+      // If status is still pending try to perform the transaction
       if (status == TransactionStatus.PENDING) {
           doTransaction()
           Thread.sleep(50)
