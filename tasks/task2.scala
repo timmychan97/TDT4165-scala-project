@@ -50,6 +50,8 @@ object task2 extends App {
 
     private lazy val getTheAnswer = () => 42
 
+    println("Entering deadlock")
+
     this.synchronized {
         val t = thread(getTheAnswer())
         t.start()
@@ -57,6 +59,6 @@ object task2 extends App {
     }
     // The main thread calls synchronized on the enclosing object,
     // starts a new thread, and waits for its termination.
-    // The new thread attempts to initialize the lazy value getTheAnswer
+    // The new thread attempts to initialize the lazy value getTheAnswer,
     // but cannot acquire the monitor until the main thread releases it.
 }
