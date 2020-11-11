@@ -38,5 +38,9 @@ object task1 extends App {
     // BigInt is represented by an array of integers, while Int only uses 32 bits for representation.
     // BigInt allows us to work with arbitrarily large numbers; however, we are in practice limited by memory constraints.
 
+    // Int is used as parameter type since we are only interested in using relatively small numbers as input for
+    // fibonacci. The function will fail due to performance and memory issues if we try to calculate fib for large n
+    // way before we reach the limit of Int (2147483647).
+
     println("The 30th fibonacci number: " + fib(30))
 }
