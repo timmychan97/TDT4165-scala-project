@@ -1,6 +1,8 @@
-object task1 {
+object task1 extends App {
     // Task 1a
     val integerArray: Array[Int] = (for (i <- 1 to 50) yield i).toArray
+
+    println("Integers from 1 to 50: " + integerArray.mkString(" "))
 
     // Task 1b
     def sumForLoop(array: Array[Int]): Int = {
@@ -11,6 +13,8 @@ object task1 {
         sum
     }
 
+    println("Sum of integer array (1 to 50) using for loop: " + sumForLoop(integerArray))
+
     // Task 1c
     def sumRecursion(array: Array[Int]): Int = {
         if (array.length > 0) {
@@ -20,8 +24,10 @@ object task1 {
         }
     }
 
+    println("Sum of integer array (1 to 50) using recursion: " + sumRecursion(integerArray))
+
     // Task 1d
-    def fib(n: BigInt): BigInt = {
+    def fib(n: Int): BigInt = {
         if (n > 1) {
             fib(n - 1) + fib(n - 2)
         } else {
@@ -29,12 +35,8 @@ object task1 {
         }
     }
 
-    // BigInt is represented by an array of integers. 
-    // While Int only uses 32 bits for representation.
-    // BigInt allows us to work with numbers bigger than what we can represent with 32 bits / 64 bits (Long).
-    def main(args: Array[String]): Unit = {
-        println("Sum of integer array (1 to 50) using for loop: " + sumForLoop(integerArray))
-        println("Sum of integer array (1 to 50) using recursion: " + sumRecursion(integerArray))
-        println("The 30th fibonacci number: " + fib(30))
-    }
+    // BigInt is represented by an array of integers, while Int only uses 32 bits for representation.
+    // BigInt allows us to work with arbitrarily large numbers; however, we are in practice limited by memory constraints.
+
+    println("The 30th fibonacci number: " + fib(30))
 }

@@ -3,7 +3,7 @@ class Bank(val allowedAttempts: Integer = 3) {
     private val transactionsQueue: TransactionQueue = new TransactionQueue()
     private val processedTransactions: TransactionQueue = new TransactionQueue()
 
-    var uidCount: BigInt = 0
+    private var uidCount: BigInt = 0
 
     // uid is used to avoid deadlocks
     def uniqueAccountId: BigInt = this.synchronized {
