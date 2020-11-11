@@ -19,6 +19,10 @@ object task2 extends App {
     t2.start()
     t3.start()
 
+    t1.join()
+    t2.join()
+    t3.join()
+
     // Print output from five runs: 2, 2, 2, 2, 1
     // This phenomenon is called a race condition
     // (the output of a concurrent program depends on
