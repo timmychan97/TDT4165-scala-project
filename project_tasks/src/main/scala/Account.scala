@@ -1,5 +1,5 @@
 class Account(val bank: Bank, initialBalance: Double) {
-    val uid: BigInt = bank.uniqueAccountId()
+    val uid: BigInt = bank.uniqueAccountId
     class Balance(var amount: Double) {}
 
     val balance = new Balance(initialBalance)
